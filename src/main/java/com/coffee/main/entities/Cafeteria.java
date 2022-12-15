@@ -1,31 +1,18 @@
 package com.coffee.main.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "CAFETERIA")
 public class Cafeteria implements Serializable {
@@ -33,30 +20,72 @@ public class Cafeteria implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Getter private Long id;
+	private Long id;
 	
-	@Getter @Setter private String nome;
+	private String nome;
 	
-	@JsonIgnore
-	@OneToOne
-	@MapsId
-	@Getter @Setter private Endereco endereco;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "endereco_id")
+	private Endereco endereco;
 	
-	@OneToOne(mappedBy = "cafeteria", cascade = CascadeType.ALL)
-	@Getter @Setter private Cardapio cardapio;
+	public Cafeteria() {}
+
+	public Cafeteria(Long id, String nome, Endereco endereco, Cardapio cardapio, List<Cupom> cupons,
+			Administrador administrador, List<Reserva> reservas) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.endereco = endereco;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	@Override
+	public String toString() {
+		return "Cafeteria [id=" + id + ", nome=" + nome + ", endereco=" + endereco + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(endereco, id, nome);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cafeteria other = (Cafeteria) obj;
+		return Objects.equals(endereco, other.endereco) && Objects.equals(id, other.id)
+				&& Objects.equals(nome, other.nome);
+	}
 	
-	@JsonIgnore
-	@OneToMany(mappedBy = "cafeteria")
-	@Getter @Setter private List<Cupom> cupons = new ArrayList<>();
-	
-	@JsonIgnore
-	@OneToOne
-	@MapsId
-	@Getter @Setter private Administrador administrador;
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "cafeteria")
-	@Getter @Setter private List<Reserva> reservas = new ArrayList<>();
 	
 
 }

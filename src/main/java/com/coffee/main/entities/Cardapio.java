@@ -1,32 +1,18 @@
 package com.coffee.main.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "CARDAPIO")
 public class Cardapio implements Serializable {
@@ -34,18 +20,62 @@ public class Cardapio implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Getter private Long id;
-	@Getter @Setter Produto produto;
+	private Long id;
 	
 	@OneToOne
-	@MapsId
-	@JsonIgnore
-	@Getter @Setter private Cafeteria cafeteria;
+	@JoinColumn(name = "cafeteria_id")
+	private Cafeteria cafeteria;
 	
-	@ManyToMany
-	@JoinTable(name = "PRODUCT_CARDAPIO_REL", 
-	joinColumns = @JoinColumn(name = "produto_id"),
-	inverseJoinColumns = @JoinColumn(name = "cardapio_id"))
-	@Getter @Setter private List<Produto> produtos = new ArrayList<>();
+	@OneToMany
+	@JoinColumn(name = "produto_id")
+	private List<Produto> produtos;
+	
+	
+	public Cardapio() {	}
+
+	public Cardapio(Long id, Cafeteria cafeteria) {
+		super();
+		this.id = id;
+		this.cafeteria = cafeteria;
+	}
+
+	public Cafeteria getCafeteria() {
+		return cafeteria;
+	}
+
+	public void setCafeteria(Cafeteria cafeteria) {
+		this.cafeteria = cafeteria;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	@Override
+	public String toString() {
+		return "Cardapio [id=" + id + ", cafeteria=" + cafeteria + ", produtos=" + produtos + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(cafeteria, id, produtos);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cardapio other = (Cardapio) obj;
+		return Objects.equals(cafeteria, other.cafeteria) && Objects.equals(id, other.id)
+				&& Objects.equals(produtos, other.produtos);
+	}
 
 }

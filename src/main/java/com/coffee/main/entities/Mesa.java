@@ -1,26 +1,14 @@
 package com.coffee.main.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "MESA")
 public class Mesa implements Serializable {
@@ -28,12 +16,65 @@ public class Mesa implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Getter private Long id;
+	private Long id;
 	
-	@Getter @Setter private String numeroMesa;
-	@Getter @Setter private int qtdePessoas;
+	private String numeroMesa;
+	private int qtdePessoas;
 	
-	@OneToMany(mappedBy = "mesa")
-	@Getter @Setter private List<Reserva> reservas = new ArrayList<>();
+	public Mesa() {}
 
+	public Mesa(Long id, String numeroMesa, int qtdePessoas) {
+		super();
+		this.id = id;
+		this.numeroMesa = numeroMesa;
+		this.qtdePessoas = qtdePessoas;
+	}
+
+	public String getNumeroMesa() {
+		return numeroMesa;
+	}
+
+	public void setNumeroMesa(String numeroMesa) {
+		this.numeroMesa = numeroMesa;
+	}
+
+	public int getQtdePessoas() {
+		return qtdePessoas;
+	}
+
+	public void setQtdePessoas(int qtdePessoas) {
+		this.qtdePessoas = qtdePessoas;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	@Override
+	public String toString() {
+		return "Mesa [id=" + id + ", numeroMesa=" + numeroMesa + ", qtdePessoas=" + qtdePessoas + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, numeroMesa, qtdePessoas);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Mesa other = (Mesa) obj;
+		return Objects.equals(id, other.id) && Objects.equals(numeroMesa, other.numeroMesa)
+				&& qtdePessoas == other.qtdePessoas;
+	}
+	
 }
