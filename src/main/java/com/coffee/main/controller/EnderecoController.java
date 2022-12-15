@@ -1,4 +1,4 @@
-package com.coffee.main.resources;
+package com.coffee.main.controller;
 
 import java.net.URI;
 import java.util.List;
@@ -20,7 +20,7 @@ import com.coffee.main.services.EnderecoService;
 
 @RestController
 @RequestMapping(value = "/endereco")
-public class EnderecoResource {
+public class EnderecoController {
 	
 	@Autowired
 	private EnderecoService service;

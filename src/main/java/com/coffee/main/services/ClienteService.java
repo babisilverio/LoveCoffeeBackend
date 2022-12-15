@@ -8,30 +8,30 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.coffee.main.entities.Administrador;
-import com.coffee.main.repositories.AdministradorRepository;
+import com.coffee.main.entities.Cliente;
+import com.coffee.main.repositories.ClienteRepository;
 import com.coffee.main.services.exception.DatabaseException;
 import com.coffee.main.services.exception.ResourceNotFoundException;
 
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
-public class AdministradorService {
-	
+public class ClienteService {
+
 	@Autowired
-	private AdministradorRepository repository;
-	
-	public Administrador findById(Long id) {
-		Optional<Administrador> admin = repository.findById(id);
-		return admin.orElseThrow(() -> new ResourceNotFoundException(id));
+	private ClienteRepository repository;
+		
+	public Cliente findById(Long id) {
+		Optional<Cliente> cafeteria = repository.findById(id);
+		return cafeteria.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
-	public List<Administrador> findAll() {
+	public List<Cliente> findAll() {
 		return repository.findAll();
 	}
 	
-	public Administrador insert (Administrador admin) {
-		return repository.save(admin);
+	public Cliente insert (Cliente cafeteria) {
+		return repository.save(cafeteria);
 	}
 	
 	public void delete (Long id) {
@@ -44,19 +44,21 @@ public class AdministradorService {
 		}
 	}
 	
-	public Administrador update(Long id, Administrador admin) {
+	public Cliente update(Long id, Cliente cafeteria) {
 		try {
-			Administrador entity = repository.getReferenceById(id);
-			updateData(entity, admin);
+			Cliente entity = repository.getReferenceById(id);
+			updateData(entity, cafeteria);
 			return repository.save(entity);
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
 		}	
 	}
 
-	private void updateData(Administrador entity, Administrador obj) {
+	private void updateData(Cliente entity, Cliente obj) {
+		entity.setNomeCliente(obj.getNomeCliente());
+		entity.setCpf(obj.getCpf());
+		entity.setTelefone(obj.getTelefone());
+		entity.setEmail(obj.getEmail());
 	}
 	
-
-
 }

@@ -8,30 +8,30 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.coffee.main.entities.Administrador;
-import com.coffee.main.repositories.AdministradorRepository;
+import com.coffee.main.entities.Cupom;
+import com.coffee.main.repositories.CupomRepository;
 import com.coffee.main.services.exception.DatabaseException;
 import com.coffee.main.services.exception.ResourceNotFoundException;
 
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
-public class AdministradorService {
-	
+public class CupomService {
+
 	@Autowired
-	private AdministradorRepository repository;
-	
-	public Administrador findById(Long id) {
-		Optional<Administrador> admin = repository.findById(id);
-		return admin.orElseThrow(() -> new ResourceNotFoundException(id));
+	private CupomRepository repository;
+		
+	public Cupom findById(Long id) {
+		Optional<Cupom> cafeteria = repository.findById(id);
+		return cafeteria.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
-	public List<Administrador> findAll() {
+	public List<Cupom> findAll() {
 		return repository.findAll();
 	}
 	
-	public Administrador insert (Administrador admin) {
-		return repository.save(admin);
+	public Cupom insert (Cupom cafeteria) {
+		return repository.save(cafeteria);
 	}
 	
 	public void delete (Long id) {
@@ -44,19 +44,19 @@ public class AdministradorService {
 		}
 	}
 	
-	public Administrador update(Long id, Administrador admin) {
+	public Cupom update(Long id, Cupom cafeteria) {
 		try {
-			Administrador entity = repository.getReferenceById(id);
-			updateData(entity, admin);
+			Cupom entity = repository.getReferenceById(id);
+			updateData(entity, cafeteria);
 			return repository.save(entity);
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
 		}	
 	}
 
-	private void updateData(Administrador entity, Administrador obj) {
+	private void updateData(Cupom entity, Cupom obj) {
+		entity.setCodigoCupom(obj.getCodigoCupom());
+		entity.setDataValidade(obj.getDataValidade());		
 	}
 	
-
-
 }

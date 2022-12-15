@@ -8,30 +8,30 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.coffee.main.entities.Administrador;
-import com.coffee.main.repositories.AdministradorRepository;
+import com.coffee.main.entities.Mesa;
+import com.coffee.main.repositories.MesaRepository;
 import com.coffee.main.services.exception.DatabaseException;
 import com.coffee.main.services.exception.ResourceNotFoundException;
 
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
-public class AdministradorService {
-	
+public class MesaService {
+
 	@Autowired
-	private AdministradorRepository repository;
-	
-	public Administrador findById(Long id) {
-		Optional<Administrador> admin = repository.findById(id);
-		return admin.orElseThrow(() -> new ResourceNotFoundException(id));
+	private MesaRepository repository;
+		
+	public Mesa findById(Long id) {
+		Optional<Mesa> mesa = repository.findById(id);
+		return mesa.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
-	public List<Administrador> findAll() {
+	public List<Mesa> findAll() {
 		return repository.findAll();
 	}
 	
-	public Administrador insert (Administrador admin) {
-		return repository.save(admin);
+	public Mesa insert (Mesa mesa) {
+		return repository.save(mesa);
 	}
 	
 	public void delete (Long id) {
@@ -44,19 +44,19 @@ public class AdministradorService {
 		}
 	}
 	
-	public Administrador update(Long id, Administrador admin) {
+	public Mesa update(Long id, Mesa mesa) {
 		try {
-			Administrador entity = repository.getReferenceById(id);
-			updateData(entity, admin);
+			Mesa entity = repository.getReferenceById(id);
+			updateData(entity, mesa);
 			return repository.save(entity);
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
 		}	
 	}
 
-	private void updateData(Administrador entity, Administrador obj) {
+	private void updateData(Mesa entity, Mesa obj) {
+		entity.setNumeroMesa(obj.getNumeroMesa());
+		entity.setQtdePessoas(obj.getQtdePessoas());
 	}
 	
-
-
 }

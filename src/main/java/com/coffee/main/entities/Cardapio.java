@@ -47,6 +47,14 @@ public class Cardapio implements Serializable {
 		this.cafeteria = cafeteria;
 	}
 
+	public List<Produto> getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}

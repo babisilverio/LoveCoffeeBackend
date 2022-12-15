@@ -1,4 +1,4 @@
-package com.coffee.main.resources;
+package com.coffee.main.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +9,7 @@ import com.coffee.main.entities.Endereco;
 
 @RestController
 @RequestMapping(value = "/login")
-public class AdministradorResource {
+public class AdministradorController {
 
 	
 }

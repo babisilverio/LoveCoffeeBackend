@@ -8,30 +8,30 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.coffee.main.entities.Administrador;
-import com.coffee.main.repositories.AdministradorRepository;
+import com.coffee.main.entities.Produto;
+import com.coffee.main.repositories.ProdutoRepository;
 import com.coffee.main.services.exception.DatabaseException;
 import com.coffee.main.services.exception.ResourceNotFoundException;
 
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
-public class AdministradorService {
-	
+public class ProdutoService {
+
 	@Autowired
-	private AdministradorRepository repository;
-	
-	public Administrador findById(Long id) {
-		Optional<Administrador> admin = repository.findById(id);
-		return admin.orElseThrow(() -> new ResourceNotFoundException(id));
+	private ProdutoRepository repository;
+		
+	public Produto findById(Long id) {
+		Optional<Produto> produto = repository.findById(id);
+		return produto.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
-	public List<Administrador> findAll() {
+	public List<Produto> findAll() {
 		return repository.findAll();
 	}
 	
-	public Administrador insert (Administrador admin) {
-		return repository.save(admin);
+	public Produto insert (Produto produto) {
+		return repository.save(produto);
 	}
 	
 	public void delete (Long id) {
@@ -44,19 +44,19 @@ public class AdministradorService {
 		}
 	}
 	
-	public Administrador update(Long id, Administrador admin) {
+	public Produto update(Long id, Produto produto) {
 		try {
-			Administrador entity = repository.getReferenceById(id);
-			updateData(entity, admin);
+			Produto entity = repository.getReferenceById(id);
+			updateData(entity, produto);
 			return repository.save(entity);
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
 		}	
 	}
 
-	private void updateData(Administrador entity, Administrador obj) {
+	private void updateData(Produto entity, Produto obj) {
+		entity.setNome(obj.getNome());
+		entity.setPreco(obj.getPreco());
 	}
 	
-
-
 }

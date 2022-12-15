@@ -8,30 +8,30 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.coffee.main.entities.Administrador;
-import com.coffee.main.repositories.AdministradorRepository;
+import com.coffee.main.entities.Reserva;
+import com.coffee.main.repositories.ReservaRepository;
 import com.coffee.main.services.exception.DatabaseException;
 import com.coffee.main.services.exception.ResourceNotFoundException;
 
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
-public class AdministradorService {
-	
+public class ReservaService {
+
 	@Autowired
-	private AdministradorRepository repository;
-	
-	public Administrador findById(Long id) {
-		Optional<Administrador> admin = repository.findById(id);
-		return admin.orElseThrow(() -> new ResourceNotFoundException(id));
+	private ReservaRepository repository;
+		
+	public Reserva findById(Long id) {
+		Optional<Reserva> reserva = repository.findById(id);
+		return reserva.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
-	public List<Administrador> findAll() {
+	public List<Reserva> findAll() {
 		return repository.findAll();
 	}
 	
-	public Administrador insert (Administrador admin) {
-		return repository.save(admin);
+	public Reserva insert (Reserva reserva) {
+		return repository.save(reserva);
 	}
 	
 	public void delete (Long id) {
@@ -44,19 +44,19 @@ public class AdministradorService {
 		}
 	}
 	
-	public Administrador update(Long id, Administrador admin) {
+	public Reserva update(Long id, Reserva reserva) {
 		try {
-			Administrador entity = repository.getReferenceById(id);
-			updateData(entity, admin);
+			Reserva entity = repository.getReferenceById(id);
+			updateData(entity, reserva);
 			return repository.save(entity);
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
 		}	
 	}
 
-	private void updateData(Administrador entity, Administrador obj) {
+	private void updateData(Reserva entity, Reserva obj) {
+		entity.setDataReserva(obj.getDataReserva());
+		entity.setHoraReserva(obj.getHoraReserva());
 	}
 	
-
-
 }
